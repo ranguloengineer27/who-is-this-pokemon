@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchPokemonByGeneration } from "../../api";
+import { fetchPokemonByGeneration } from "../../api/queries";
 import PokemonGeneration from "../PokemonGeneration/PokemonGeneration";
-import { useState } from "react";
+import usePokemon from "../../api/store";
+import { manageGenerationsUpdate } from "../../api/controllers";
 
 type Generation = {
   name: string;
@@ -17,11 +18,9 @@ const formatLabel = (label: string) => {
   return label.replace("-", " ").toUpperCase();
 };
 
-const DEFAULT_GENERATION = ["https://pokeapi.co/api/v2/generation/1/"];
-
 const PokemonGenerationsWrapper = () => {
-  const [pokemonGeneration, setPokemonGeneration] =
-    useState<Array<string>>(DEFAULT_GENERATION);
+  const updateGenerations = usePokemon((state) => state.updateGeneration);
+  const generations = usePokemon((state) => state.generations);
   const { data, isLoading } = useQuery<QueryResponse>({
     queryKey: ["POKEMON_GENERATIONS"],
     queryFn: () => fetchPokemonByGeneration(null),
@@ -29,15 +28,18 @@ const PokemonGenerationsWrapper = () => {
 
   if (isLoading) return <span>LOADING.....</span>;
 
+  console.log("generations:::", generations);
+
   return (
     <div>
       {data?.results?.map((gen) => (
         <PokemonGeneration
+          checked={generations.some(({ url }) => url === gen.url)}
           name={gen.name}
           value={gen.url}
           label={formatLabel(gen.name)}
-          onClick={(e) => {
-            setPokemonGeneration((prev) => [...prev, e.target.value]);
+          onChange={() => {
+            updateGenerations(manageGenerationsUpdate(gen, generations));
           }}
         />
       ))}
