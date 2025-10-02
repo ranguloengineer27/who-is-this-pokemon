@@ -1,7 +1,8 @@
-import React from "react";
-import { GameState } from "../../api/types";
+import React, { useState } from "react";
+import { GameState, RoundResult } from "../../api/types";
 import { Button } from "@chakra-ui/react";
 import usePokemon from "../../api/store";
+import PokemonChoices from "../PokemonChoices/PokemonChoices";
 
 const GameStateMap: Record<GameState, { component: () => React.JSX.Element }> =
   {
@@ -9,27 +10,41 @@ const GameStateMap: Record<GameState, { component: () => React.JSX.Element }> =
       component: () => {
         const updateGameState = usePokemon.use.updateGameState();
         return (
-          <Button onClick={() => updateGameState(GameState.ROUND_START)}>
+          <Button onClick={() => updateGameState(GameState.ROUND_STARTED)}>
             Start Game
           </Button>
         );
       },
     },
-    [GameState.ROUND_START]: {
-      component: () => (
-        <div>
-          <p>Do you need any help?</p>
-          <p>
-            If you do, we'll provide 4 choices of pokemon, and you have one shot
-            to guess it. Otherwise you'll have up to 3 shots to guess!
-          </p>
-          <Button>Yes I need help</Button>
-          <Button>No, I can guess it by myself</Button>
-        </div>
-      ),
-    },
     [GameState.ROUND_STARTED]: {
-      component: () => <div>Round in progress</div>,
+      component: () => {
+        const [pokemonChosen, setPokemonChosen] = useState<string>("");
+        const correctPokemonAnswer = usePokemon.use.currentPokemon();
+        const updateRoundResult = usePokemon.use.updateRoundResult();
+
+        return (
+          <>
+            <PokemonChoices
+              pokemonChosen={pokemonChosen}
+              setPokemonChosen={setPokemonChosen}
+            />
+            <Button
+              onClick={() => {
+                const roundResult =
+                  correctPokemonAnswer &&
+                  pokemonChosen &&
+                  pokemonChosen === correctPokemonAnswer.name
+                    ? RoundResult.WIN
+                    : RoundResult.LOSE;
+
+                updateRoundResult(roundResult);
+              }}
+            >
+              Send
+            </Button>
+          </>
+        );
+      },
     },
   };
 

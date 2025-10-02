@@ -15,8 +15,12 @@ export type QueryResponse = {
   results: Generation[];
 };
 
+export enum RoundResult {
+  WIN = "WIN",
+  LOSE = "LOSE",
+}
+
 export enum GameState {
   INITIAL = "INITIAL",
-  ROUND_START = "ROUND_START",
   ROUND_STARTED = "ROUND_STARTED",
 }

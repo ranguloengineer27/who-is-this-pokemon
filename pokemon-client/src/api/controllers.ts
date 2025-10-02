@@ -1,5 +1,5 @@
 import { getCachedData } from "./queries";
-import type { Generation, PokemonSpecieResponse } from "./types";
+import type { Generation, PokemonSpecie, PokemonSpecieResponse } from "./types";
 
 export const manageGenerationsUpdate = (
   newGeneration: Generation,
@@ -25,3 +25,23 @@ export async function getGenerationsData(
 
   return data;
 }
+
+export const generateDistractorsChoices = (
+  pokemonList: PokemonSpecie[],
+  correctPokemon: PokemonSpecie
+): PokemonSpecie[] => {
+  const distractors: PokemonSpecie[] = [];
+
+  while (distractors.length < 3) {
+    const randomIndex = Math.floor(Math.random() * pokemonList.length);
+    const candidate = pokemonList[randomIndex];
+    if (
+      candidate.name !== correctPokemon.name &&
+      !distractors.some((d) => d.name === candidate.name)
+    ) {
+      distractors.push(candidate);
+    }
+  }
+
+  return distractors;
+};

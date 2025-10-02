@@ -9,6 +9,7 @@ import {
   defaultConfig,
   defineConfig,
 } from "@chakra-ui/react";
+import "./_globals.scss";
 
 const config = defineConfig({
   theme: {

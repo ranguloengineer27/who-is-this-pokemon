@@ -1,5 +1,10 @@
 import { create, type StoreApi, type UseBoundStore } from "zustand";
-import { GameState, type Generation, type PokemonSpecie } from "./types";
+import {
+  GameState,
+  RoundResult,
+  type Generation,
+  type PokemonSpecie,
+} from "./types";
 import { DEFAULT_GENERATION } from "./constants";
 
 type StoreType = {
@@ -11,18 +16,29 @@ type StoreType = {
   pokemonsList: PokemonSpecie[];
   currentPokemon: PokemonSpecie | null;
   updateCurrentPokemon: (newPokemon: PokemonSpecie) => void;
+  updateOptions: (options: PokemonSpecie[]) => void;
+  options: PokemonSpecie[];
+  roundResult: RoundResult | null;
+  updateRoundResult: (result: RoundResult | null) => void;
 };
 
 const basePokemonStore = create<StoreType>((set) => ({
   generations: [DEFAULT_GENERATION],
+  roundResult: null,
+  updateRoundResult: (result: RoundResult | null) =>
+    set({ roundResult: result }),
   gameState: GameState.INITIAL,
   updateGameState: (newGameState: GameState) =>
     set({ gameState: newGameState }),
   pokemonsList: [],
+  options: [],
+  updateOptions: (newOptions: PokemonSpecie[]) => set({ options: newOptions }),
   currentPokemon: null,
-  updateCurrentPokemon: (newPokemon) => set({ currentPokemon: newPokemon }),
-  updateGeneration: (newGenerations) => set({ generations: newGenerations }),
-  updatePokemonsList: (newPokemonsList: any) =>
+  updateCurrentPokemon: (newPokemon: PokemonSpecie) =>
+    set({ currentPokemon: newPokemon }),
+  updateGeneration: (newGenerations: Generation[]) =>
+    set({ generations: newGenerations }),
+  updatePokemonsList: (newPokemonsList: PokemonSpecie[]) =>
     set({ pokemonsList: newPokemonsList }),
 }));
 
