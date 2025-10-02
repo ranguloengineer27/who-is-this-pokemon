@@ -14,22 +14,20 @@ export const fetchPokemonListOrigin = async (url: string) => {
   }
 };
 
-export const getCachedData = (
-  dataKey: string
-): ((url: string) => Promise<any>) => {
+export function getCachedData<T>(dataKey: string): (url: string) => Promise<T> {
   const cache = new Map();
 
   return async (url: string) => {
     if (!cache.has(dataKey)) {
       const data = await fetchPokemonListOrigin(url);
-      cache.set(POKEMON_LIST_KEY, data);
+      cache.set(dataKey, data);
     }
 
     console.log("is there data in cache ??");
 
-    return Promise.resolve(cache.get(POKEMON_LIST_KEY));
+    return Promise.resolve(cache.get(dataKey));
   };
-};
+}
 
 export const fetchPokemonByGeneration = async (
   gen: number | null

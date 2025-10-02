@@ -3,24 +3,15 @@ import { fetchPokemonByGeneration } from "../../api/queries";
 import PokemonGeneration from "../PokemonGeneration/PokemonGeneration";
 import usePokemon from "../../api/store";
 import { manageGenerationsUpdate } from "../../api/controllers";
-
-type Generation = {
-  name: string;
-  url: string;
-};
-
-type QueryResponse = {
-  count: number;
-  results: Generation[];
-};
+import type { QueryResponse } from "../../api/types";
 
 const formatLabel = (label: string) => {
   return label.replace("-", " ").toUpperCase();
 };
-
 const PokemonGenerationsWrapper = () => {
-  const updateGenerations = usePokemon((state) => state.updateGeneration);
-  const generations = usePokemon((state) => state.generations);
+  const generations = usePokemon.use.generations();
+  const updateGeneration = usePokemon.use.updateGeneration();
+
   const { data, isLoading } = useQuery<QueryResponse>({
     queryKey: ["POKEMON_GENERATIONS"],
     queryFn: () => fetchPokemonByGeneration(null),
@@ -28,18 +19,19 @@ const PokemonGenerationsWrapper = () => {
 
   if (isLoading) return <span>LOADING.....</span>;
 
-  console.log("generations:::", generations);
+  console.log("GENERATIONS :::", generations);
 
   return (
     <div>
       {data?.results?.map((gen) => (
         <PokemonGeneration
+          key={gen.name}
           checked={generations.some(({ url }) => url === gen.url)}
           name={gen.name}
           value={gen.url}
           label={formatLabel(gen.name)}
           onChange={() => {
-            updateGenerations(manageGenerationsUpdate(gen, generations));
+            updateGeneration(manageGenerationsUpdate(gen, generations));
           }}
         />
       ))}

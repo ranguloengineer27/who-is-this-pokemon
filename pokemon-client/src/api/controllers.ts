@@ -1,4 +1,5 @@
-import type { Generation } from "./types";
+import { getCachedData } from "./queries";
+import type { Generation, PokemonSpecieResponse } from "./types";
 
 export const manageGenerationsUpdate = (
   newGeneration: Generation,
@@ -13,3 +14,14 @@ export const manageGenerationsUpdate = (
 
   return [...oldGenerations, newGeneration];
 };
+
+export async function getGenerationsData(
+  gens: Generation[]
+): Promise<Promise<PokemonSpecieResponse>[]> {
+  const data: Promise<PokemonSpecieResponse>[] = gens.map(
+    async ({ url }) =>
+      await getCachedData<PokemonSpecieResponse>("POKEMONS_GENERATIONS")(url)
+  );
+
+  return data;
+}
