@@ -4,6 +4,7 @@ import PokemonGeneration from "../PokemonGeneration/PokemonGeneration";
 import usePokemon from "../../api/store";
 import { manageGenerationsUpdate } from "../../api/controllers";
 import type { QueryResponse } from "../../api/types";
+import { Spinner } from "@chakra-ui/react";
 
 const formatLabel = (label: string) => {
   return label.replace("-", " ").toUpperCase();
@@ -17,9 +18,7 @@ const PokemonGenerationsWrapper = () => {
     queryFn: () => fetchPokemonByGeneration(null),
   });
 
-  if (isLoading) return <span>LOADING.....</span>;
-
-  console.log("GENERATIONS :::", generations);
+  if (isLoading) return <Spinner size="md" />;
 
   return (
     <div>

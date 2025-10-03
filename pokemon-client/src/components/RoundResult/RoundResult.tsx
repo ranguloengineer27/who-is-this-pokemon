@@ -1,4 +1,3 @@
-import { Button } from "@chakra-ui/react";
 import usePokemon from "../../api/store";
 import { GameState, RoundResult as RoundResultType } from "../../api/types";
 

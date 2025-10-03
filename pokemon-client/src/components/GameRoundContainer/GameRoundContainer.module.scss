@@ -1,0 +1,20 @@
+.GameRoundGrid {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  gap: 1rem;
+}
+
+.FeedbackSlot {
+  grid-row: 1;
+  min-height: 3.5rem;
+}
+
+.PokemonSlot {
+  grid-row: 2;
+  min-height: 11rem;
+}
+
+.ControlsSlot {
+  grid-row: 3;
+  min-height: 5.8rem;
+}

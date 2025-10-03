@@ -7,8 +7,6 @@ export const usePokemonList = (shouldUpdateList: boolean) => {
   const updatePokemonsList = usePokemon.use.updatePokemonsList();
   const pokemonsList = usePokemon.use.pokemonsList();
 
-  console.log("pokemonsList :::", pokemonsList);
-
   useEffect(() => {
     (async () => {
       const pokemonListData = await getGenerationsData(generations);
