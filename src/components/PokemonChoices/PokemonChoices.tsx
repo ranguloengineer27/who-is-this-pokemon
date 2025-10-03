@@ -17,7 +17,11 @@ const PokemonChoices: FC<Props> = ({ pokemonChosen, setPokemonChosen }) => {
     >
       <div className="flex justify-content-evenly mb-2">
         {pokemonOptions.map((option) => (
-          <RadioGroup.Item value={option.name} key={option.name}>
+          <RadioGroup.Item
+            value={option.name}
+            key={option.name}
+            className="cursor-pointer"
+          >
             <RadioGroup.ItemHiddenInput />
             <RadioGroup.ItemIndicator />
             <RadioGroup.ItemText>{option.name}</RadioGroup.ItemText>

@@ -5,6 +5,7 @@ import usePokemon from "../../api/store";
 import { manageGenerationsUpdate } from "../../api/controllers";
 import type { QueryResponse } from "../../api/types";
 import { Spinner } from "@chakra-ui/react";
+import { POKEMONS_GENERATIONS } from "../../api/constants";
 
 const formatLabel = (label: string) => {
   return label.replace("-", " ").toUpperCase();
@@ -14,7 +15,7 @@ const PokemonGenerationsWrapper = () => {
   const updateGeneration = usePokemon.use.updateGeneration();
 
   const { data, isLoading } = useQuery<QueryResponse>({
-    queryKey: ["POKEMON_GENERATIONS"],
+    queryKey: [POKEMONS_GENERATIONS],
     queryFn: () => fetchPokemonByGeneration(null),
   });
 

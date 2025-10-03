@@ -6,6 +6,7 @@ import { fetchPokemonListOrigin } from "../../api/queries";
 import cn from "classnames";
 import { GameState } from "../../api/types";
 import { Spinner } from "@chakra-ui/react";
+import { POKEMON_KEY } from "../../api/constants";
 
 const getIfPokemonImageIsHidden = (gameState: GameState) => {
   return gameState === GameState.ROUND_STARTED;
@@ -17,7 +18,7 @@ const Pokemon = () => {
   const gameState = usePokemon.use.gameState();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["pokemon", currentPokemonName],
+    queryKey: [POKEMON_KEY, currentPokemonName],
     queryFn: () =>
       fetchPokemonListOrigin(
         `https://pokeapi.co/api/v2/pokemon/${currentPokemonName}`

@@ -1,7 +1,5 @@
+import { GENERATION_ENDPOINT } from "./constants";
 import type { QueryResponse } from "./types";
-
-const BASE_URL = "https://pokeapi.co/api/v2";
-const GENERATION_ENDPOINT = `${BASE_URL}/generation`;
 
 export const fetchPokemonListOrigin = async (url: string) => {
   try {

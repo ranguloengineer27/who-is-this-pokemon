@@ -2,24 +2,11 @@ import { GameState } from "../../api/types";
 import { Button } from "@chakra-ui/react";
 import usePokemon from "../../api/store";
 import PokemonChoicesContainer from "../PokemonChoicesContainer/PokemonChoicesContainer";
-import Pokemon from "../PokemonContainer/PokemonContainer";
+import Pokemon from "../Pokemon/Pokemon";
 import FeedbackRound from "../FeedbackRound/FeedbackRound";
 import cn from "classnames";
 import CSS from "./GameRoundContainer.module.scss";
-
-type roundVisibility = {
-  pokemonIsVisible: boolean;
-  startRoundButtonIsVisible: boolean;
-  pokemonChoicesIsVisible: boolean;
-};
-
-const useRoundVisibility = (gameState: GameState): roundVisibility => {
-  return {
-    pokemonIsVisible: gameState !== GameState.INITIAL,
-    startRoundButtonIsVisible: gameState !== GameState.ROUND_STARTED,
-    pokemonChoicesIsVisible: gameState === GameState.ROUND_STARTED,
-  };
-};
+import { useRoundVisibility } from "../../hooks/useRoundVisibility";
 
 const GameRoundContainer = () => {
   const gameState = usePokemon.use.gameState();
