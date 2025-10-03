@@ -1,6 +1,5 @@
 const BASE_URL = "https://pokeapi.co/api/v2";
 const GENERATION_ENDPOINT = `${BASE_URL}/generation`;
-const POKEMON_LIST_KEY = "POKEMON_LIST";
 
 export const fetchPokemonListOrigin = async (url: string) => {
   try {
