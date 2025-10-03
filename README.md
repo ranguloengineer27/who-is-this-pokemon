@@ -18,9 +18,11 @@ The project is built with:
 ## Running Locally
 
 1. Clone the repository:
-   ```bash
-   git clone git@github.com:ranguloengineer27/who-is-this-pokemon.git
-   ```
+
+```bash
+  git clone git@github.com:ranguloengineer27/who-is-this-pokemon.git
+```
+
 2. Navigate to the project folder and install dependencies:
 
 `npm install`
