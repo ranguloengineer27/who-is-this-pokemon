@@ -1,4 +1,4 @@
-import { useState, type FC } from "react";
+import { type FC } from "react";
 import usePokemon from "../../api/store";
 import { RadioGroup } from "@chakra-ui/react";
 

@@ -1,60 +1,106 @@
-import React, { useState } from "react";
-import { GameState, RoundResult } from "../../api/types";
+import React, { useEffect, useState } from "react";
+import { GameState } from "../../api/types";
 import { Button } from "@chakra-ui/react";
 import usePokemon from "../../api/store";
-import PokemonChoices from "../PokemonChoices/PokemonChoices";
+import PokemonChoicesContainer from "../PokemonChoicesContainer/PokemonChoicesContainer";
+import Pokemon from "../PokemonContainer/PokemonContainer";
+import RoundResult from "../RoundResult/RoundResult";
 
-const GameStateMap: Record<GameState, { component: () => React.JSX.Element }> =
-  {
-    [GameState.INITIAL]: {
-      component: () => {
-        const updateGameState = usePokemon.use.updateGameState();
-        return (
-          <Button onClick={() => updateGameState(GameState.ROUND_STARTED)}>
-            Start Game
-          </Button>
-        );
-      },
-    },
-    [GameState.ROUND_STARTED]: {
-      component: () => {
-        const [pokemonChosen, setPokemonChosen] = useState<string>("");
-        const correctPokemonAnswer = usePokemon.use.currentPokemon();
-        const updateRoundResult = usePokemon.use.updateRoundResult();
+const ButtonStartRound = () => {
+  const updateGameState = usePokemon.use.updateGameState();
+  return (
+    <Button
+      className="mt-2"
+      onClick={() => updateGameState(GameState.ROUND_STARTED)}
+    >
+      Start new round
+    </Button>
+  );
+};
 
-        return (
-          <>
-            <PokemonChoices
-              pokemonChosen={pokemonChosen}
-              setPokemonChosen={setPokemonChosen}
-            />
-            <Button
-              onClick={() => {
-                const roundResult =
-                  correctPokemonAnswer &&
-                  pokemonChosen &&
-                  pokemonChosen === correctPokemonAnswer.name
-                    ? RoundResult.WIN
-                    : RoundResult.LOSE;
+type ComponentsVisibilityState = {
+  pokemonIsVisible: boolean;
+  startRoundButtonIsVisible: boolean;
+  pokemonChoicesIsVisible: boolean;
+  roundResultIsVisible: boolean;
+};
 
-                updateRoundResult(roundResult);
-              }}
-            >
-              Send
-            </Button>
-          </>
-        );
-      },
-    },
-  };
+const DEFAULT_VISIBILITY_STATE = {
+  pokemonIsVisible: false,
+  startRoundButtonIsVisible: true,
+  pokemonChoicesIsVisible: false,
+  roundResultIsVisible: false,
+};
+
+const useComponentsVisibility = (): ComponentsVisibilityState => {
+  const gameState = usePokemon.use.gameState();
+  const [componentsVisibility, setComponentsVisibility] =
+    useState<ComponentsVisibilityState>(DEFAULT_VISIBILITY_STATE);
+
+  useEffect(() => {
+    if (!gameState) return;
+
+    if (gameState === GameState.INITIAL) {
+      setComponentsVisibility({
+        startRoundButtonIsVisible: true,
+        pokemonIsVisible: false,
+        pokemonChoicesIsVisible: false,
+        roundResultIsVisible: false,
+      });
+      return;
+    }
+
+    if (gameState === GameState.ROUND_STARTED) {
+      setComponentsVisibility({
+        pokemonIsVisible: true,
+        startRoundButtonIsVisible: false,
+        pokemonChoicesIsVisible: true,
+        roundResultIsVisible: false,
+      });
+      return;
+    }
+
+    if (gameState === GameState.ROUND_ENDED) {
+      setComponentsVisibility({
+        pokemonIsVisible: true,
+        pokemonChoicesIsVisible: false,
+        startRoundButtonIsVisible: true,
+        roundResultIsVisible: true,
+      });
+    }
+  }, [gameState]);
+
+  return componentsVisibility;
+};
 
 const GameRoundContainer = () => {
-  const gameState = usePokemon.use.gameState();
-  const Component = GameStateMap[gameState]?.component ?? <></>;
-
+  const {
+    pokemonChoicesIsVisible,
+    pokemonIsVisible,
+    startRoundButtonIsVisible,
+    roundResultIsVisible,
+  } = useComponentsVisibility();
   return (
     <div>
-      <Component />
+      <div {...(pokemonIsVisible ? {} : { className: "display-none" })}>
+        <Pokemon />
+      </div>
+
+      <div {...(pokemonChoicesIsVisible ? {} : { className: "display-none" })}>
+        <PokemonChoicesContainer />
+      </div>
+
+      <div {...(roundResultIsVisible ? {} : { className: "display-none" })}>
+        <RoundResult />
+      </div>
+
+      <div
+        {...(startRoundButtonIsVisible ? {} : { className: "display-none" })}
+      >
+        <ButtonStartRound />
+      </div>
+
+      {/* <Component /> */}
     </div>
   );
 };

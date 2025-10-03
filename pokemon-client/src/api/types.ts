@@ -23,4 +23,5 @@ export enum RoundResult {
 export enum GameState {
   INITIAL = "INITIAL",
   ROUND_STARTED = "ROUND_STARTED",
+  ROUND_ENDED = "ROUND_ENDED",
 }

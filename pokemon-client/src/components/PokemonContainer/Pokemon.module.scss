@@ -1,4 +1,9 @@
 .Container {
   display: flex;
   justify-content: center;
+  height: 11rem;
+}
+
+.Image {
+  filter: invert(50%);
 }
