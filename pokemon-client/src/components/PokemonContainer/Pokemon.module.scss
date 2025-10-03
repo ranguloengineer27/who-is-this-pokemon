@@ -11,6 +11,6 @@
   width: 11rem;
 
   &.ImageDark {
-    filter: invert(50%);
+    filter: brightness(0.1);
   }
 }

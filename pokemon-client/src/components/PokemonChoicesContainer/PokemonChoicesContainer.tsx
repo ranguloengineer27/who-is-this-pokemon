@@ -3,6 +3,7 @@ import PokemonChoices from "../PokemonChoices/PokemonChoices";
 import { Button } from "@chakra-ui/react";
 import usePokemon from "../../api/store";
 import { GameState, RoundResult } from "../../api/types";
+import CSS from "./PokemonChoicesContainer.module.scss";
 
 const PokemonChoicesContainer = () => {
   const [pokemonChosen, setPokemonChosen] = useState<string>("");
@@ -17,6 +18,7 @@ const PokemonChoicesContainer = () => {
         setPokemonChosen={setPokemonChosen}
       />
       <Button
+        className={CSS.Button}
         onClick={() => {
           const roundResult =
             correctPokemonAnswer &&

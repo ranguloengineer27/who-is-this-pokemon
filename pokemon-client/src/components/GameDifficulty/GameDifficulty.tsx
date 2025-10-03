@@ -14,7 +14,7 @@ const GameDifficulty = () => {
         onClick={() => setIsDifficultyDrawerOpen(true)}
         className={CSS.GameDifficultyButton}
       >
-        Configure game difficulty
+        Adjust difficulty
       </Button>
       <PokemonGenerationsDrawer
         open={isDifficultyDrawerOpen}
