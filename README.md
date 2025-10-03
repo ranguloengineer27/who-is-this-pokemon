@@ -21,3 +21,20 @@ The project is built with:
    ```bash
    git clone git@github.com:ranguloengineer27/who-is-this-pokemon.git
    ```
+2. Navigate to the project folder and install dependencies:
+
+`npm install`
+
+3. Run the development server:
+
+`npm run dev`
+
+## Project Structure
+
+All main code is under /src, organized as follows:
+
+- /components: Modular UI pieces
+
+- /api: Store, API calls, controllers
+
+- /hooks: Custom hooks which contains logic to update states
