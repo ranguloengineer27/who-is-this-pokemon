@@ -5,7 +5,6 @@ import { getGenerationsData } from "../api/controllers";
 export const usePokemonList = (shouldUpdateList: boolean) => {
   const generations = usePokemon.use.generations();
   const updatePokemonsList = usePokemon.use.updatePokemonsList();
-  const pokemonsList = usePokemon.use.pokemonsList();
 
   useEffect(() => {
     (async () => {

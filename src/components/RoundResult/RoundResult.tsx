@@ -1,5 +1,5 @@
 import usePokemon from "../../api/store";
-import { GameState, RoundResult as RoundResultType } from "../../api/types";
+import { RoundResult as RoundResultType } from "../../api/types";
 
 const RoundResult = () => {
   const roundResult = usePokemon.use.roundResult();

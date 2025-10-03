@@ -1,3 +1,5 @@
+import type { QueryResponse } from "./types";
+
 const BASE_URL = "https://pokeapi.co/api/v2";
 const GENERATION_ENDPOINT = `${BASE_URL}/generation`;
 
@@ -22,18 +24,16 @@ export function getCachedData<T>(dataKey: string): (url: string) => Promise<T> {
       cache.set(dataKey, data);
     }
 
-    console.log("is there data in cache ??");
-
     return Promise.resolve(cache.get(dataKey));
   };
 }
 
 export const fetchPokemonByGeneration = async (
   gen: number | null
-): Promise<any> => {
+): Promise<QueryResponse> => {
   const key = gen ? `POKEMON_GEN_${gen}` : "POKEMON_GENS";
   const endpoint = gen ? `${GENERATION_ENDPOINT}/${gen}` : GENERATION_ENDPOINT;
 
-  const getPokemonGeneration = await getCachedData(key);
+  const getPokemonGeneration = await getCachedData<QueryResponse>(key);
   return await getPokemonGeneration(endpoint);
 };
