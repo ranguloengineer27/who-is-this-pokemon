@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FC } from "react";
+import { type FC } from "react";
 import CSS from "./PokemonGeneration.module.scss";
 import { Checkbox } from "@chakra-ui/react";
 import cn from "classnames";
