@@ -51,7 +51,9 @@ const GameRoundContainer = () => {
         <Pokemon />
       </div>
 
-      <div className={CSS.ControlsSlot}>{controlsComponent}</div>
+      <div className={CSS.ControlsSlot}>
+        <div className={CSS.ControlsSlot__Inner}>{controlsComponent}</div>
+      </div>
     </div>
   );
 };

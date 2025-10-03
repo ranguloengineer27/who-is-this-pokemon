@@ -15,7 +15,7 @@ const PokemonChoices: FC<Props> = ({ pokemonChosen, setPokemonChosen }) => {
       value={pokemonChosen ? pokemonChosen : pokemonOptions[0]?.name}
       onValueChange={(e) => setPokemonChosen(e.value ?? "")}
     >
-      <div className="flex justify-content-between mb-2">
+      <div className="flex justify-content-evenly mb-2">
         {pokemonOptions.map((option) => (
           <RadioGroup.Item value={option.name} key={option.name}>
             <RadioGroup.ItemHiddenInput />
